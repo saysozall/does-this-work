@@ -18,10 +18,13 @@ local tele = Window:MakeTab({
 
 --value
 getgenv().mapsSelect = "Windmill"
+getgenv().npcSelect = "N/A"
 
 
 --function
-
+function test()
+	local nnpc = npcs.Name
+end
 
 --call
 
@@ -47,7 +50,7 @@ tele:AddButton({
 	Callback = function(maps)
 		maps = getgenv().mapsSelect
       	--game:GetService("ReplicatedStorage").Remotes.Requirer:FireServer(maps,"TP")
-		local plr = game.PLayers.LocalPlayer.Character.HumanoidRootPart
+		local plr = game.Players.LocalPlayer.Character.HumanoidRootPart
 		for i,place in pairs(game:GetService("Workspace").Map.SpawnLocation:GetChildren()) do
 			if place.Name == maps then
 				plr.CFrame = place.CFrame
@@ -61,15 +64,25 @@ local tpsection = tele:AddSection({
 	Name = "Teleport NPC"
 })
 
-local npc = game:GetService("Workspace").Map.NPC:WaitForChild()
+for i,npcs in pairs(game:GetService("Workspace").Map.NPC:GetChildren()) do
+	npcs.Name = getgenv().npcSelect
+end
 
 tele:AddDropdown({
 	Name = "Select NPC",
 	Default = "N/A",
-	Options = {npc},
+	Options = {getgenv().npcSelect},
 	Callback = function(Value)
 		print(Value)
 	end    
+})
+
+tele:AddButton({
+	Name = "Teleport",
+	Callback = function()
+		local plr = game.Players.LocalPlayer.Character.HumanoidRootPart
+		plr.CFrame = getgenv().npcSelect.CFrame
+  	end    
 })
 
 
