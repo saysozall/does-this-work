@@ -45,7 +45,7 @@ tele:AddButton({
 	Callback = function(maps)
 		maps = getgenv().mapsSelect
       	--game:GetService("ReplicatedStorage").Remotes.Requirer:FireServer(maps,"TP")
-		local plr = game.PLayers.LocalPlayer.Character.HumanoidRootPart
+		local plr = game.Players.LocalPlayer.Character.HumanoidRootPart
 		for i,place in pairs(game:GetService("Workspace").Map.SpawnLocation:GetChildren()) do
 			if place.Name == maps then
 				plr.CFrame = place.CFrame
