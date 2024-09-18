@@ -14,9 +14,7 @@ local tele = Window:MakeTab({
 	PremiumOnly = false
 })
 
-local tpsection = tele:AddSection({
-	Name = "Teleport"
-})
+
 
 --value
 getgenv().mapsSelect = "Windmill"
@@ -29,6 +27,10 @@ getgenv().mapsSelect = "Windmill"
 
 
 --"Windmill", "Jungle","ShellsTown","BuggyTown","Boss Island","SnowIsland","DesertIland1","DesertIland2","Hueco Mundo","TojiIsland","PadangPyramid","Mini House Island","Magma Island","Dark Island","Dummy Island","Jungle V2 Island"
+
+local tpsection = tele:AddSection({
+	Name = "Teleport Place"
+})
 
 tele:AddDropdown({
 	Name = "Select Place",
@@ -45,7 +47,7 @@ tele:AddButton({
 	Callback = function(maps)
 		maps = getgenv().mapsSelect
       	--game:GetService("ReplicatedStorage").Remotes.Requirer:FireServer(maps,"TP")
-		local plr = game.Players.LocalPlayer.Character.HumanoidRootPart
+		local plr = game.PLayers.LocalPlayer.Character.HumanoidRootPart
 		for i,place in pairs(game:GetService("Workspace").Map.SpawnLocation:GetChildren()) do
 			if place.Name == maps then
 				plr.CFrame = place.CFrame
@@ -55,7 +57,20 @@ tele:AddButton({
   	end    
 })
 
+local tpsection = tele:AddSection({
+	Name = "Teleport NPC"
+})
 
+local npc = game:GetService("Workspace").Map.NPC:WaitForChild()
+
+tele:AddDropdown({
+	Name = "Select NPC",
+	Default = "N/A",
+	Options = {npc},
+	Callback = function(Value)
+		print(Value)
+	end    
+})
 
 
 OrionLib:Init()
