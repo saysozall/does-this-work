@@ -22,8 +22,10 @@ getgenv().npcSelect = "N/A"
 
 
 --function
-function test()
-	local nnpc = npcs.Name
+function test(ncp)
+	for i,mapselect in pairs(game:GetService("Workspace").Map.NPC:GetChildren()) do
+		mapselect.Name = ncp
+	end
 end
 
 --call
@@ -64,24 +66,29 @@ local tpsection = tele:AddSection({
 	Name = "Teleport NPC"
 })
 
-for i,npcs in pairs(game:GetService("Workspace").Map.NPC:GetChildren()) do
+--[[for i,npcs in pairs(game:GetService("Workspace").Map.NPC:GetChildren()) do
 	npcs.Name = getgenv().npcSelect
-end
+end]]
 
 tele:AddDropdown({
 	Name = "Select NPC",
 	Default = "N/A",
-	Options = {getgenv().npcSelect},
+	Options = {test(ncp)},
 	Callback = function(Value)
-		print(Value)
+		getgenv().npcSelect = Value
 	end    
 })
 
 tele:AddButton({
 	Name = "Teleport",
-	Callback = function()
+	Callback = function(nps)
+		nps = getgenv().npcSelect
 		local plr = game.Players.LocalPlayer.Character.HumanoidRootPart
-		plr.CFrame = getgenv().npcSelect.CFrame
+		for i,pc in pairs(game:GetService("Workspace").Map.NPC:GetChildren()) do
+			if pc.Name == nps then
+				plr.CFrame = pc.CFrame
+			end
+		end
   	end    
 })
 
