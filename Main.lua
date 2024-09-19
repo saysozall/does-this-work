@@ -31,12 +31,16 @@ getgenv().Rfamily = true
 --function
 
 function traits()
-	game:GetService("ReplicatedStorage").Events.SpinTrait:FireServer("Normal")
+	while getgenv().Rtraits == true do
+		game:GetService("ReplicatedStorage").Events.SpinTrait:FireServer("Normal")
+	end
 	wait(0.1)
 end
 
 function family()
-	game:GetService("ReplicatedStorage").Events.SpinFamily:FireServer("Normal")
+	while getgenv().Rfamily == true do
+		game:GetService("ReplicatedStorage").Events.SpinFamily:FireServer("Normal")
+	end
 	wait(0.1)
 end
 
@@ -53,7 +57,7 @@ end
 --"Windmill", "Jungle","ShellsTown","BuggyTown","Boss Island","SnowIsland","DesertIland1","DesertIland2","Hueco Mundo","TojiIsland","PadangPyramid","Mini House Island","Magma Island","Dark Island","Dummy Island","Jungle V2 Island"
 
 
-local Item = tele:AddSection({
+local Item = main:AddSection({
 	Name = "Item"
 })
 
@@ -61,9 +65,8 @@ main:AddToggle({
 	Name = "Auto Traits",
 	Default = false,
 	Callback = function(Value)
-		while getgenv().Rtraits == Value do
-			traits()
-		end
+		getgenv().Rtraits = Value
+		traits()
 	end    
 })
 
@@ -71,9 +74,8 @@ main:AddToggle({
 	Name = "Auto Family",
 	Default = false,
 	Callback = function(Value)
-		while getgenv().Rfamily == Value do
-			family()
-		end
+		getgenv().Rfamily = Value
+		family()
 	end    
 })
 
