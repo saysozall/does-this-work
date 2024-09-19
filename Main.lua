@@ -33,15 +33,17 @@ getgenv().Rfamily = true
 function traits()
 	while getgenv().Rtraits == true do
 		game:GetService("ReplicatedStorage").Events.SpinTrait:FireServer("Normal")
+		wait(0.1)
 	end
-	wait(0.1)
+	
 end
 
 function family()
 	while getgenv().Rfamily == true do
 		game:GetService("ReplicatedStorage").Events.SpinFamily:FireServer("Normal")
+		wait(0.1)
 	end
-	wait(0.1)
+	
 end
 
 function traitsMenu()
