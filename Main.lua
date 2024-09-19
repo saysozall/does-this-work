@@ -44,7 +44,7 @@ local Window = Fluent:CreateWindow({
 
 button.MouseButton1Click:Connect(function ()
     Window.Minimized = not Window.Minimized
-	Window.Root.Visible = not Window.Minimized
+    Window.Root.Visible = not Window.Minimized
 end)
 
 
