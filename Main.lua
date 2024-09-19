@@ -13,7 +13,7 @@ frame.AnchorPoint = Vector2.new(0.5,0.5)
 frame.Position = UDim2.new(0.111, 0,0.197, 0)
 frame.Size = UDim2.new(0, 100,0, 30)
 frame.BackgroundColor3 = color
-frame.Draggable = false
+frame.Draggable = true
 frame.ZIndex = 4
 corner.CornerRadius = UDim.new(1,0)
 
@@ -23,7 +23,7 @@ button.TextSize = 16
 button.Text = "toggle"
 button.BackgroundTransparency = 1
 button.ZIndex = 5
-button.Draggable = true
+button.Draggable = false
 
 
 
@@ -44,6 +44,7 @@ local Window = Fluent:CreateWindow({
 
 button.MouseButton1Click:Connect(function ()
     Window.Minimized = not Window.Minimized
+	Window.Root.Visible = not Window.Minimized
 end)
 
 
