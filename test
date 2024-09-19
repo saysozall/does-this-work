@@ -1,40 +1,30 @@
-local library = loadstring(game:HttpGet('https://raw.githubusercontent.com/cueshut/saves/main/criminality%20paste%20ui%20library'))()
+local SimpleShindoUi = loadstring(game:HttpGet("https://raw.githubusercontent.com/naypramx/Ui__Project/Script/SimpleShindoUi"))()
 
--- // Window \\ --
-local window = library.new('leadmarker is so hot', 'leadmarker')
+local Main = SimpleShindoUi:new()
 
--- // Tabs \\ --
-local tab = window.new_tab('rbxassetid://4483345998')
-local tab1 = window.new_tab('rbxassetid://4483345998')
+local Tab = Main:Tap('Centerhub')
 
--- // Sections \\ --
-local section = tab.new_section('Bruh XD')
-local section1 = tab.new_section(':DDD HI')
+local page = Tab:page()
 
--- // Sector \\ --
-local sector = section.new_sector('OK', 'Left')
-local sector1 = section.new_sector('BRUHHHH', 'Right')
+local Labelz = page:Label('Label!')
 
--- // Elements \\ -- (Type, Name, State, Callback)
-local button = sector.element('Button', 'Button', nil, function()
-
+page:Toggle('Toggle!',false,function(t)
+    print(t)
+end)
+page:Button('Button!',function()
+    print('t')
+end)
+page:Slider('Slider!',1,100,20,function(t)
+    print(t)
+end)
+local drope = page:drop('Dropdown!',"Nothings",false,{'DinoHub','CenterHub'},function(t)
+    print(t) -- ห้ามนำไปแจกต่อนะจ๊ะ XD
 end)
 
-local toggle = sector.element('Toggle', 'Toggle', false, function(v)
-   print(v.Toggle) -- :nerd:
+local page2 = Tab:page()
+page2:Button('Clear Dropdown!',function()
+    drope:clear()
 end)
-toggle:add_color({Color = Color3.fromRGB(84, 101, 255)}, nil, function(v)
-   print(v.Color)    
-end)
-
-local dropdown = sector.element('Dropdown', 'Dropdown', {options = {'one', 'two', 'three'}}, function(v)
-   print(v.Dropdown)
-end)
-
-local slider = sector.element('Slider', 'Slider', {default = {min = 1, max = 100, default = 50}}, function(v)
-   print(v.Slider)
-end)
-
-local combo = sector.element('Combo', 'Combo', {options = {'bruh', 'otherbruh'}}, function(v)
-   table.foreach(v.Combo, print)
+page2:Button('Refresh Dropdown!',function()
+    drope:add({"Simple"}) -- มันทำไงวะ -- ห้ามนำไปแจกต่อนะจ๊ะ XD
 end)
