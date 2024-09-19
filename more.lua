@@ -14,21 +14,80 @@ local tele = Window:MakeTab({
 	PremiumOnly = false
 })
 
-local tpsection = tele:AddSection({
-	Name = "Teleport"
+local misc = Window:MakeTab({
+	Name = "Mics",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
 })
+
 
 --value
 getgenv().mapsSelect = "Windmill"
+getgenv().npcSelect = "N/A"
+getgenv().Rtraits = true
+getgenv().Rfamily = true
 
 
 --function
 
+function traits()
+	while getgenv().Rtraits == true do
+		game:GetService("ReplicatedStorage").Events.SpinTrait:FireServer("Normal")
+		wait(0.1)
+	end
+	
+end
+
+function family()
+	while getgenv().Rfamily == true do
+		game:GetService("ReplicatedStorage").Events.SpinFamily:FireServer("Normal")
+		wait(0.1)
+	end
+	
+end
+
+function traitsMenu()
+	local plr = game.Players.LocalPlayer
+	local gui = plr.PlayerGui
+	local store = gui:FindFirstChild("TraitsStorage")
+	store.Frame.Visible = true
+end
 
 --call
 
 
 --"Windmill", "Jungle","ShellsTown","BuggyTown","Boss Island","SnowIsland","DesertIland1","DesertIland2","Hueco Mundo","TojiIsland","PadangPyramid","Mini House Island","Magma Island","Dark Island","Dummy Island","Jungle V2 Island"
+
+
+local Item = main:AddSection({
+	Name = "Item"
+})
+
+main:AddToggle({
+	Name = "Auto Traits",
+	Default = false,
+	Callback = function(Value)
+		getgenv().Rtraits = Value
+		traits()
+	end    
+})
+
+main:AddToggle({
+	Name = "Auto Family",
+	Default = false,
+	Callback = function(Value)
+		getgenv().Rfamily = Value
+		family()
+	end    
+})
+
+
+
+
+
+local tpsection = tele:AddSection({
+	Name = "Teleport Place"
+})
 
 tele:AddDropdown({
 	Name = "Select Place",
@@ -52,6 +111,15 @@ tele:AddButton({
 			end
 		end
 
+  	end    
+})
+
+
+
+misc:AddButton({
+	Name = "Open Traits Menu",
+	Callback = function()
+		traitsMenu()
   	end    
 })
 
