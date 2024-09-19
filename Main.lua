@@ -14,24 +14,72 @@ local tele = Window:MakeTab({
 	PremiumOnly = false
 })
 
+local misc = Window:MakeTab({
+	Name = "Mics",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
 
 
 --value
 getgenv().mapsSelect = "Windmill"
 getgenv().npcSelect = "N/A"
+getgenv().Rtraits = true
+getgenv().Rfamily = true
 
 
 --function
-function test(ncp)
-	for i,mapselect in pairs(game:GetService("Workspace").Map.NPC:GetChildren()) do
-		mapselect.Name = ncp
-	end
+
+function traits()
+	game:GetService("ReplicatedStorage").Events.SpinTrait:FireServer("Normal")
+	wait(0.1)
+end
+
+function family()
+	game:GetService("ReplicatedStorage").Events.SpinFamily:FireServer("Normal")
+	wait(0.1)
+end
+
+function traitsMenu()
+	local plr = game.Players.LocalPlayer
+	local gui = plr.PlayerGui
+	local store = gui:FindFirstChild("TraitsStorage")
+	store.Frame.Visible = true
 end
 
 --call
 
 
 --"Windmill", "Jungle","ShellsTown","BuggyTown","Boss Island","SnowIsland","DesertIland1","DesertIland2","Hueco Mundo","TojiIsland","PadangPyramid","Mini House Island","Magma Island","Dark Island","Dummy Island","Jungle V2 Island"
+
+
+local Item = tele:AddSection({
+	Name = "Item"
+})
+
+main:AddToggle({
+	Name = "Auto Traits",
+	Default = false,
+	Callback = function(Value)
+		while getgenv().Rtraits == Value do
+			traits()
+		end
+	end    
+})
+
+main:AddToggle({
+	Name = "Auto Family",
+	Default = false,
+	Callback = function(Value)
+		while getgenv().Rfamily == Value do
+			family()
+		end
+	end    
+})
+
+
+
+
 
 local tpsection = tele:AddSection({
 	Name = "Teleport Place"
@@ -62,35 +110,16 @@ tele:AddButton({
   	end    
 })
 
-local tpsection = tele:AddSection({
-	Name = "Teleport NPC"
-})
 
---[[for i,npcs in pairs(game:GetService("Workspace").Map.NPC:GetChildren()) do
-	npcs.Name = getgenv().npcSelect
-end]]
 
-tele:AddDropdown({
-	Name = "Select NPC",
-	Default = "N/A",
-	Options = {test(ncp)},
-	Callback = function(Value)
-		getgenv().npcSelect = Value
-	end    
-})
-
-tele:AddButton({
-	Name = "Teleport",
-	Callback = function(nps)
-		nps = getgenv().npcSelect
-		local plr = game.Players.LocalPlayer.Character.HumanoidRootPart
-		for i,pc in pairs(game:GetService("Workspace").Map.NPC:GetChildren()) do
-			if pc.Name == nps then
-				plr.CFrame = pc.CFrame
-			end
-		end
+misc:AddButton({
+	Name = "Open Traits Menu",
+	Callback = function()
+		traitsMenu()
   	end    
 })
+
+
 
 
 OrionLib:Init()
