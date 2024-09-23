@@ -1,0 +1,78 @@
+if game.PlaceId == 16981421605 then
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+local cui = game:GetService("CoreGui")
+local ui = Instance.new("ScreenGui",cui)
+local image = Instance.new("ImageButton",ui)
+local icorn = Instance.new("UICorner",image)
+
+local Iimage = "rbxassetid://117918539720347"
+
+icorn.CornerRadius = UDim.new(0.1,8)
+image.Position = UDim2.new(0.065, 0,0.15, 0)
+image.Size = UDim2.new(0, 65,0, 65)
+image.Image = Iimage
+image.Draggable = true
+
+local Window = Fluent:CreateWindow({
+    Title = "Zal Hub | Reborn As Swordsman",
+    SubTitle = "by me",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(475, 300),
+    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+})
+
+image.MouseButton1Click:Connect(function()
+    Window.Minimized = not Window.Minimized
+    Window.Root.Visible = not Window.Minimized
+end)
+
+-- game variable
+local wpk = game:GetService("Workspace")
+
+
+-- variable
+
+getgenv().mapSelect = {}
+getgenv().mapSelected = "/"
+getgenv().autoTrain = true
+
+
+
+
+
+
+-- functions
+
+
+
+
+
+
+-- tab
+
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" })
+    --tele = Window:AddTab({ Title = "Teleport", Icon = "settings" })
+}
+
+local world = wpk.Worlds:GetChildren()
+
+local maps = Tabs.Main:AddDropdown("Dropdown", {
+    Title = "Select Current World",
+    Values = {},
+    Multi = false,
+    Default = "N/A",
+})
+
+for i, wlrd in pairs(world) do
+    table.insert(getgenv().mapSelect,wlrd.Name)
+end
+
+maps:SetValues({"World "..getgenv().mapSelect})
+
+
+end
