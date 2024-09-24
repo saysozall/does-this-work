@@ -75,7 +75,17 @@ getgenv().weaponSelected = "/"
 
 
 -- hitbox size = 4.11,5.33,3.15
+--[[
+classname = ManualWeld
+name = HitboxWeld
+C0 = 0,0,2.5,1,0,0,0,1,0,0,0,1
+C1 = 0,0,0,1,0,0,0,1,0,0,0,1
 
+parent - part
+Part0 Part
+Part1 HumanoidRootPart
+
+]]
 
 -- functions
 function hitcom()
@@ -87,13 +97,13 @@ function hitcom()
             if weaps:IsA("Tool") then
                 weaps.Activated:Connect(function()
                     local hitbox = Instance.new("Part")
-                    hitbox.Parent = wpk
+                    hitbox.Parent = wpk.plr
                     hitbox.Anchored = true
                     hitbox.CanCollide = false
-                    hitbox.Transparency = 0.4
+                    hitbox.Transparency = 0.2
                     hitbox.Size = Vector3.new(4.11, 5.33, 3.15)
-                    hitbox.CFrame = plr.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-3)
-                    game.Debris:AddItem(hitbox,1)
+                    hitbox.CFrame = plr.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-5)
+                    game.Debris:AddItem(hitbox,0.0000000000000000000000000000000000001)
                     local Hits = {}
                     hitbox.Touched:Connect(function(shot)
                         if shot.Parent:FindFirstChild("Hitted") and shot.Parent.Name ~= plr.Name then
@@ -104,7 +114,7 @@ function hitcom()
                                 local hum = shot.Parent:FindFirstChild("Humanoid")
                                 Hits[shot.Parent.Name] = true
                                 hum:TakeDamage(hum.Health)
-                                wait(2)
+                                wait()
                                 Hits[shot.Parent.Name] = false
                             end
                         end
@@ -156,7 +166,7 @@ end
 
 
 local Window = Fluent:CreateWindow({
-    Title = "Zal Hub|Ijul Piece",
+    Title = "Zal Hub | Ijul Piece 2",
     SubTitle = "by me",
     TabWidth = 160,
     Size = UDim2.fromOffset(475, 300),
