@@ -1,0 +1,211 @@
+if game.PlaceId == 18688206652 then
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+local plr = game:GetService("Players").LocalPlayer
+local cui = game:GetService("CoreGui")
+local wpk = game:GetService("Workspace")
+
+local ui = Instance.new("ScreenGui",cui)
+local image = Instance.new("ImageButton",ui)
+local icorn = Instance.new("UICorner",image)
+
+local Iimage = "rbxassetid://117918539720347"
+
+icorn.CornerRadius = UDim.new(0.1,8)
+image.Position = UDim2.new(0.065, 0,0.15, 0)
+image.Size = UDim2.new(0, 45,0, 45)
+image.ScaleType = Enum.ScaleType.Fit
+image.Image = Iimage
+image.Draggable = true
+
+local Window = Fluent:CreateWindow({
+    Title = "Zal Hub | Ijul Piece 2",
+    SubTitle = "by me",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(475, 300),
+    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+})
+
+image.MouseButton1Click:Connect(function()
+    Window.Minimized = not Window.Minimized
+    Window.Root.Visible = not Window.Minimized
+end)
+
+local Tabs = {
+    main = Window:AddTab({ Title = " • Main", Icon = "" }),
+    tele = Window:AddTab({ Title = " • Teleport", Icon = "" }),
+    misc = Window:AddTab({ Title = " • Misc", Icon = ""})
+}
+
+
+-- local
+
+local mapfile = wpk.Map.SpawnLocation:GetChildren()
+local npcfile = wpk.Map.NPC:GetChildren()
+
+-- values
+
+getgenv().Rtraits = true
+getgenv().Rfamily = true
+getgenv().Afruit = true
+getgenv().mapSelect = {}
+getgenv().mapSelected = "/"
+getgenv().npcSelect = {}
+getgenv().npcSelected = "/"
+
+-- functions
+
+function traits()
+	while getgenv().Rtraits == true do
+		game:GetService("ReplicatedStorage").Events.SpinTrait:FireServer("Normal")
+		wait(0.1)
+	end
+end
+
+function families()
+	while getgenv().Rfamily == true do
+		game:GetService("ReplicatedStorage").Events.SpinFamily:FireServer("Normal")
+		wait(0.1)
+	end
+end
+
+function TraitsStore()
+    local gui = plr.PlayerGui
+    local store = gui:FindFirstChild("TraitsStorage")
+    store.Frame.Visible = not store.Frame.Visible
+end
+
+function fruits()
+    while getgenv().Afruit == true do
+        for i,v in pairs(wpk:GetChildren()) do
+            if v:IsA("Tool") then
+                firetouchinterest(plr.Character.HumanoidRootPart,v.Handle,0)
+                wait(1)
+                game:GetService("ReplicatedStorage").Events.StoreItem:FireServer(v.Name)
+                game:GetService("ReplicatedStorage").Events.RequestInventory:FireServer()
+            end
+        end
+    end
+end
+
+function tpPlace(map)
+    map = getgenv().mapSelected
+    local hrp = plr.Character.HumanoidRootPart
+	for i,place in pairs(mapfile) do
+		if place.Name == map then
+			hrp.CFrame = place.CFrame
+		end
+	end
+end
+
+function tpNPC(npc)
+    npc = getgenv().npcSelectedSelected
+    local hrp = plr.Character.HumanoidRootPart
+	for i,inpc in pairs(npcfile) do
+		if inpc.Name == npc then
+			hrp.CFrame = inpc.HumanoidRootPart.CFrame
+		end
+	end
+end
+
+-- main
+
+local itsec = Tabs.main:AddSection("Item")
+
+local autotrait = Tabs.main:AddToggle("test",{
+    Title = "Auto Traits",
+    Default = false,
+    Callback = function(Value)
+        getgenv().Rtraits = Value
+        traits()
+    end
+})
+
+local autofamily = Tabs.main:AddToggle("test",{
+    Title = "Auto Family",
+    Default = false,
+    Callback = function(Value)
+        getgenv().Rfamily = Value
+        families()
+    end
+})
+
+local autofruit = Tabs.main:AddToggle("test",{
+    Title = "Auto Fruit",
+    Default = false,
+    Callback = function(Value)
+        getgenv().Afruit = Value
+        fruits()
+    end
+})
+
+-- tele
+
+local maps = Tabs.tele:AddDropdown("Dropdown", {
+    Title = "Select Place",
+    Values = {},
+    Multi = false,
+    Default = "N/A",
+})
+
+for _,themap in pairs(mapfile) do
+    table.insert(getgenv().mapSelect,themap.Name)
+end
+
+maps:SetValues(getgenv().mapSelect)
+
+maps:OnChanged(function(Value)
+    getgenv().mapSelected = Value
+
+end)
+
+Tabs.tele:AddButton({
+    Title = "Teleport Place",
+    Description = "",
+    Callback = function()
+        tpPlace()
+    end
+})
+
+local tp2 = Tabs.tele:AddSection("Teleport NPC")
+
+local drpnpc = Tabs.tele:AddDropdown("Dropdown", {
+    Title = "Select NPC",
+    Values = {},
+    Multi = false,
+    Default = "N/A",
+})
+
+for _,theOne in pairs(npcfile) do
+    table.insert(getgenv().npcSelect,theOne.Name)
+end
+
+drpnpc:SetValues(getgenv().npcSelect)
+
+drpnpc:OnChanged(function(Value)
+    getgenv().npcSelected = Value
+end)
+
+Tabs.tele:AddButton({
+    Title = "Teleport NPC",
+    Description = "",
+    Callback = function()
+        tpNPC()
+    end
+})
+
+-- misc
+
+Tabs.misc:AddButton({
+    Title = "Open Traits Storage",
+    Description = "",
+    Callback = function()
+        TraitsStore()
+    end
+})
+
+
+end
